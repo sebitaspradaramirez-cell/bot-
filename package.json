@@ -1,0 +1,10 @@
+{
+  "name": "trafficworld-ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mapa global de tráfico en vivo con TomTom y asistente IA",
+  "scripts": { "start": "node server.js", "dev": "node --watch server.js" },
+  "engines": { "node": ">=20" }
+}
+
