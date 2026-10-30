@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="Consulta el tráfico real en ciudades de todo el mundo con TRAFFICWORLD AI.">
+  <title>TRAFFICWORLD AI — Inteligencia vial global</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="TRAFFICWORLD AI inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3 5 8v8c0 7 4.7 11.6 11 14 6.3-2.4 11-7 11-14V8L16 3Z"/><path d="M12 22V10m0 0h8m-8 6h6"/></svg></span><span><strong>TRAFFICWORLD</strong><small>AI · GLOBAL MOBILITY</small></span></a>
+      <form id="search-form" class="searchbox" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg><input id="city-search" type="search" placeholder="Busca una ciudad o lugar…" aria-label="Buscar ciudad" autocomplete="off"><kbd>↵</kbd><button id="search-submit" class="search-submit" aria-label="Buscar">Buscar</button></form>
+      <div class="top-actions"><button id="locate-button" class="location-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg><span>Usar mi ubicación</span></button><button id="mobile-chat-button" class="icon-button mobile-chat-trigger" type="button" aria-label="Abrir asistente">✦</button></div>
+    </header>
+    <main class="workspace">
+      <section class="map-panel" aria-label="Mapa y tráfico">
+        <div id="map" role="application" aria-label="Mapa interactivo del tráfico"></div>
+        <div class="map-vignette" aria-hidden="true"></div>
+        <div class="map-toolbar"><div class="map-context"><span class="live-dot"></span><span id="map-city">Vista global</span><span class="context-divider">/</span><span class="context-muted">Mapa de tráfico</span></div><button id="refresh-button" class="map-icon-button" type="button" title="Actualizar tráfico" aria-label="Actualizar tráfico">↻</button></div>
+        <div class="map-controls"><button id="zoom-in" type="button" aria-label="Acercar">+</button><button id="zoom-out" type="button" aria-label="Alejar">−</button><span></span><button id="reset-view" type="button" aria-label="Vista global">⌖</button></div>
+        <div class="map-legend"><div class="legend-title">TRÁFICO EN VIVO <span class="live-dot"></span></div><div class="legend-scale"><span><i class="legend-green"></i>Fluido</span><span><i class="legend-yellow"></i>Moderado</span><span><i class="legend-orange"></i>Intenso</span><span><i class="legend-red"></i>Grave</span></div><small>Datos TomTom · visualización sujeta a cobertura</small></div>
+        <div class="map-attribution">© OpenStreetMap · © TomTom</div>
+      </section>
+      <aside class="side-panel">
+        <div class="panel-heading"><div><p class="eyebrow">CENTRO DE MOVILIDAD</p><h1>Estado del tráfico</h1></div><button id="assistant-button" class="assistant-trigger" type="button"><span>✦</span> Preguntar al AI</button></div>
+        <div class="location-card"><div class="location-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div class="location-copy"><span class="eyebrow">ZONA SELECCIONADA</span><strong id="selected-location">Explora el mapa</strong><small id="location-caption">Busca una ciudad para consultar sus vías</small></div><button id="location-clear" class="clear-button" type="button" aria-label="Limpiar ubicación">×</button></div>
+        <div class="metrics-grid"><article class="metric-card"><div class="metric-label">ÍNDICE DE TRÁFICO <span class="metric-glyph">◉</span></div><div class="metric-value" id="traffic-index">—<small>/ 10</small></div><div class="metric-foot" id="traffic-status">Sin datos consultados</div><div class="meter"><i id="traffic-meter"></i></div></article><article class="metric-card"><div class="metric-label">INCIDENTES <span class="metric-glyph incident-glyph">!</span></div><div class="metric-value" id="incident-count">—</div><div class="metric-foot" id="incident-status">Sin datos consultados</div><div class="incident-bar"><i id="incident-meter"></i></div></article></div>
+        <section class="roads-section"><div class="section-heading"><div><p class="eyebrow">LECTURA DE LA ZONA</p><h2>Vías cercanas</h2></div><span class="data-badge" id="data-badge">EN ESPERA</span></div><div id="roads-list" class="roads-list"><div class="empty-state"><span class="empty-icon">⌖</span><strong>Selecciona una ubicación</strong><p>Los datos de velocidad y congestión aparecerán aquí cuando consultes una ciudad.</p></div></div></section>
+        <section class="insight-card"><div class="insight-icon">✦</div><div><span class="eyebrow">INSIGHT DE MOVILIDAD</span><p id="insight-text">Consulta una ciudad para obtener una lectura basada en datos de tráfico disponibles.</p></div></section>
+        <footer class="panel-footer"><span><i class="live-dot"></i><span id="connection-label">Conectando con servicios</span></span><span id="updated-at">Aún sin actualizar</span></footer>
+      </aside>
+    </main>
+    <section id="chat-panel" class="chat-panel" aria-label="TrafficWorld Assistant" aria-hidden="true"><header class="chat-header"><div class="assistant-avatar">✦</div><div class="chat-title"><strong>TrafficWorld Assistant</strong><small><i class="live-dot"></i> Inteligencia vial</small></div><button id="close-chat" class="icon-button" type="button" aria-label="Cerrar asistente">×</button></header><div id="chat-messages" class="chat-messages" aria-live="polite"><div class="chat-welcome"><div class="welcome-spark">✦</div><h2>Hola, soy tu asistente de movilidad.</h2><p>Pregúntame por el tráfico de una ciudad o zona. Respondo usando los datos viales disponibles.</p><button class="suggestion" type="button">¿Cómo está el tráfico en Bogotá?</button><button class="suggestion" type="button">¿Hay incidentes cerca de Medellín?</button></div></div><form id="chat-form" class="chat-composer"><textarea id="chat-input" rows="1" maxlength="800" placeholder="Pregunta por el tráfico…" aria-label="Escribe tu pregunta"></textarea><button type="submit" aria-label="Enviar pregunta">↑</button><small>Las respuestas dependen de los datos disponibles de TomTom.</small></form></section>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
+
