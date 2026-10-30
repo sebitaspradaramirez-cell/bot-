@@ -16,6 +16,10 @@ Aplicación web de movilidad con mapa global, tráfico TomTom en vivo, geolocali
 
 Las claves solo se leen desde el servidor y nunca se envían al navegador. No subas `.env` al repositorio. Para geolocalización fuera de `localhost`, sirve la aplicación bajo HTTPS.
 
+## Publicar en Render
+
+El repositorio incluye `render.yaml` como Blueprint para desplegar el servidor Node y la interfaz en un solo servicio. En Render, conecta tu cuenta de GitHub, crea un Blueprint nuevo y selecciona este repositorio. Durante la configuración inicial, Render solicitará `TOMTOM_API_KEY` y `OPENAI_API_KEY`; introdúcelas como secretos en el panel de Render, nunca en GitHub. Al terminar el primer despliegue, Render asignará una dirección pública `onrender.com` y podrá reconstruir el sitio cuando se actualice la rama `main`.
+
 ## Funciones
 
 - Búsqueda mundial de ciudades con geocodificación TomTom.
